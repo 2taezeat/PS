@@ -27,3 +27,5 @@ for i in range(101):
     result.append(sum)
 
 print(result[N])
+
+##test
