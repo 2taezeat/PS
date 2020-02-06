@@ -5,7 +5,7 @@ for i in range(1,51):
     list2.append( list2[i-1]*2 + 1 )
     lenlist.append( 3 + ( lenlist[i-1] ) * 2) 
 
-def asd(x,n, llist, plist):
+def asd(n, x, llist, plist):
     # for i in range(1,51):
 
     #     if x <= llist[i]:
@@ -40,8 +40,6 @@ def asd(x,n, llist, plist):
     #             result = asd(k,llist,plist) + 1 + plist[i-1]
     #             break
     if n == 0:
-        if x == 0:
-            return 0
         if x == 1:
             return 1
     
@@ -50,31 +48,17 @@ def asd(x,n, llist, plist):
         return 0
     else:
         if x <= llist[n-1] + 1 :
-            print('1')
-            return asd(x-1,n-1,llist,plist)
+            return asd(n-1,x-1,llist,plist)
             
         if x == llist[n-1] + 2 :
             return plist[n-1] + 1
             
         if x <= 1 + llist[n-1] + 1 + llist[n-1] :
-            return 1 + asd(n-1, x-1-llist[n-1]-1 , llist ,plist )
+            return 1 + plist[n-1] + asd(n-1, x-1-llist[n-1]-1 , llist ,plist )
 
         if x == llist[n-1] * 2 + 3:
             return plist[n-1] * 2 + 1
 
-
-               
-
-# for i in range(1, 50):
-#     print(i, asd(i,lenlist,list2))
-
-r = asd(X,N,lenlist,list2)
+r = asd(N,X,lenlist,list2)
 
 print(r)
-# if N == 1: 
-#     print(1)
-# else:
-#     if X == 1:
-#         print(0)
-#     else:
-#         print(r)
