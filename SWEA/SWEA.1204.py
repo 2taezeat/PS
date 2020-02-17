@@ -13,6 +13,5 @@ for test_case in range(1, T + 1):
                 count = count + 1
 
         countlist.append([count,el])
-    #print(countlist)
     r = countlist.index(max(countlist))
     print('#',N,' ',der_l1[r], sep="")
