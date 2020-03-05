@@ -14,7 +14,6 @@ dy = [-1, 0, 1,  0]
 def bfs(y,x):
     global space
     q = [ [y,x] ]
-    count = 1
     while ( q != [] ):
         now = q.pop(0)
 
