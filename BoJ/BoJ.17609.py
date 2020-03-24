@@ -16,6 +16,4 @@ for i in range(T):
     s1= s.pop(c)
 
     print(s1)
-        
-
 ############# 미 성공
