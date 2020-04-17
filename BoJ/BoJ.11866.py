@@ -4,7 +4,9 @@ for i in range(1,n+1):
     l.append(i)
 answer = []
 r = (k-1)
+
 while(l!=[]):
+    
     if r >= len(l):
         while(r >= len(l)):
             r = r - len(l) 
