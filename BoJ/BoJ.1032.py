@@ -22,5 +22,4 @@ while( c<l ):
         answer = answer + '?'
 
     c = c + 1
-
 print(answer)
