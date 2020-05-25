@@ -6,4 +6,3 @@ for i in range(n):
         print('even')
     else:
         print('odd')
-
