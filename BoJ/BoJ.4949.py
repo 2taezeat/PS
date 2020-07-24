@@ -1,14 +1,13 @@
 while(1):
     pl = input()
-
     if pl == '.':
         break
 
     pl = list(pl)
     stack = []
     c = 1
-    for p in pl:
 
+    for p in pl:
         if p == '(':
             stack.append(0)
         elif p == '[':
@@ -31,7 +30,6 @@ while(1):
             if stack.pop() != 1: # 1 = '['
                 c = 0
                 break
-
 
     if len(stack) == 0 and c == 1:
         print('yes')
