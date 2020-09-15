@@ -6,7 +6,7 @@ for i in range(n):
 
 r = 0
 if n == 1:
-    print(l1[0])
+    print(0)
 elif n == 2:
     print(l1[0]+l1[1])
     
