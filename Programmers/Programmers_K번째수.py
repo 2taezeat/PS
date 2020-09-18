@@ -5,7 +5,7 @@ def solution(array, com):
         c = s
         i = c[0] 
         j = c[1] 
-        k = c[2]
+        k = c[2] # i,j,k 값 할당
 
         nl = array[i-1:j]
         nl.sort()
