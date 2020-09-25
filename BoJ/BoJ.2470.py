@@ -1,3 +1,5 @@
+# 이진탐색_3_이태경.py
+
 # 초기화 및 input 받기
 n = int(input())
 l1 = list(map(int,input().split()))

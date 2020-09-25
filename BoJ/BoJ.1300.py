@@ -1,3 +1,4 @@
+# 이진탐색_1_이태경.py
 n = int(input())
 k = int(input())
 

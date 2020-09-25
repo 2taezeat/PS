@@ -1,3 +1,5 @@
+# 이진탐색_2_이태경.py
+
 import bisect
 def solution(d, budget):
     d.sort() # 신청한 금액 리스트를 정렬
