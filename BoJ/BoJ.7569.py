@@ -4,6 +4,7 @@ input = sys.stdin.readline
 # input 받고, 3차원 space 배열 초기화
 m,n,h = map(int,input().split())
 space = [[] for i in range(h)]
+result = 0
 for j in range(h):
     for i in range(n):
         space[j].append(list(map(int,input().split())))
@@ -14,7 +15,6 @@ dz = [0, 0, 0, 0, -1, 1]
 visited = [[[False for i in range(m)] for i in range(n)] for i in range(h)]
 
 def bfs():
-
     while(q):
         z,x,y = q.popleft()
         visited[z][x][y] = True
@@ -52,7 +52,7 @@ for z in range(h):
 
             if space[z][x][y] == -1:
                 t = t + 1
-result = 0
+
 if c == (m*n*h):
     print(0)
 elif t == (m*n*h):
