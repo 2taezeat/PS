@@ -6,3 +6,16 @@ for i in range(12):
     space.append(s)
 
 print(space)
+
+
+rl, yl, gl = []
+dx = [1, -1, 0, 0]
+dy = [0, 0, 1, -1]
+def bfs():
+    q = deque()
+    q.append([x,y])
+    count = 1
+
+
+while True:
+    count = 0
