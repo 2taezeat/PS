@@ -13,7 +13,6 @@ def bfs(graph, start_node):
             for nextNode in sortedqlist:
                 q.put(nextNode)
             
-
     return visit
 
 def dfs(graph, start_node):
