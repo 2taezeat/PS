@@ -12,6 +12,5 @@ for w in list1:
     arr1.append([len(w),w])
 
 arr1.sort()
-
 for i in arr1:
     print(i[1])
