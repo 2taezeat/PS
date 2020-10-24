@@ -7,6 +7,7 @@ for i in range(T):
 maxN = max(nlist)
 dp0 = []
 dp1 = []
+
 for j in range(maxN+1):
     if j == 0 :
         dp0.append(1)
