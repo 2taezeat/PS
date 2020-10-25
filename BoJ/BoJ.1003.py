@@ -22,5 +22,6 @@ for j in range(maxN+1):
         dp0.append( dp0[j-1] + dp0[j-2])
         dp1.append( dp1[j-1] + dp1[j-2])
 
+
 for k in nlist:
     print(dp0[k], dp1[k])

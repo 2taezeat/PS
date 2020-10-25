@@ -4,7 +4,6 @@ def bfs(y,x,space,rc):
 
     while ( q != [] ):
         now = q.pop(0)
-
         for i in range(4):
             nowx = now[1] + dx[i]
             nowy = now[0] + dy[i]
