@@ -7,3 +7,4 @@ for i in range(n):
     space.append(s)
 
 print(space)
+
