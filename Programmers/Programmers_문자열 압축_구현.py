@@ -1,3 +1,4 @@
+# 구현_1_이태경.py
 def solution(s):
     l1 = []
     ls = len(s)
