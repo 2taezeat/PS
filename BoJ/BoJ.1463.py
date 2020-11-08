@@ -1,21 +1,11 @@
-# def cal(num, i):
-#     if (num == 1):
-#         return (i)
-
-#     if (num % 3 == 0):
-#         return cal(num / 3, i + 1)
-
-#     if (num % 2 == 0):
-#         if ( ((num-1)/3) % 3 == 0 ):
-#             return cal(num - 1, i + 1)
-#         else:
-#             return cal(num / 2, i + 1)
-
-#     else:
-#         return cal(num - 1, i + 1)
 N = int(input())
 
 dplist = [0,0,1,1]
+
+# 주어진 수 N을 1로 만드는 최소 횟수는
+# 1. N-1을 1로 만드는 최소 횟수 + 1
+# 2. N/2을 1로 만드는 최소 횟수 + 1
+# 3. N/3을 1로 만드는 최소 횟수 + 1
 
 for i in range(4,N+1):
     dplist.append( dplist[i-1] + 1 )
