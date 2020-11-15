@@ -16,4 +16,5 @@ for i in range(1,n):
     dp.append(l1)
 
 
+
 print(sum(dp[n-1]) % 10007)
