@@ -1,3 +1,4 @@
+# 그리디_1_이태경.py
 l1 = list(input())
 r = []
 for i in range(len(l1)-1):
