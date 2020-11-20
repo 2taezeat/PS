@@ -1,5 +1,4 @@
 # 그리디_3_이태경.py
-
 import heapq
 
 def solution(food_times, k):
