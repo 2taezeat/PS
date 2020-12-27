@@ -21,8 +21,6 @@ for k in range(1,n+1):
             graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
             
 
-# for i in range(n):
-#     print(graph[i])
 # a에서 b로 도달이 가능하다는 것은 a가 b보다 성적이 낮다는 의미
 # a에서 b로 도달이 가능 or b에서 a로 도달이 가능하면 성적 비교가 가능
 
