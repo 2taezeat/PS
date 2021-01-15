@@ -17,3 +17,4 @@ if n > 1022:
     print(-1)
 else:
     print(l2[n])
+    
