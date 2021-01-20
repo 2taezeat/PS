@@ -26,7 +26,6 @@ for i in range(6):
             a2 = min(a2,sa2)
 
 a1 = min(a)
-
 result = 0
 
 if N == 1:
