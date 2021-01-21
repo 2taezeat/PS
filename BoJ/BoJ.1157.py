@@ -13,7 +13,6 @@ for c in s_set:
     cl.append([count,c])
 
 ml = []
-
 m = max(cl)[0]
 for i in range(len(cl)):
     if cl[i][0] == m:
