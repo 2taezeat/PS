@@ -6,7 +6,6 @@ for j in range(N):
     a.append(b[j])
 
 dp = [1]
-
 for k in range(1,N):
     count = 0
     clist = [0]
