@@ -22,7 +22,6 @@ def bfs(y,x,newspace):
 
     while q:
         now = q.pop()
-        
         for i in range(4):
             nowx = now[1] + dx[i]
             nowy = now[0] + dy[i]
