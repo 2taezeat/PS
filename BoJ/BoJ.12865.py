@@ -1,5 +1,4 @@
 N,K = map(int,input().split())
-
 wlist = [0]
 vlist = [0]
 
