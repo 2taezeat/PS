@@ -34,7 +34,6 @@ def asd(r,c,d,count,space):
 
     if d == 1: # 방향이 동쪽일때,
         if (space[r][c-1] != 0 ) and (space[r-1][c] != 0 ) and (space[r][c+1] != 0 ) and (space[r+1][c] != 0 ):
-
             if ( space[r][c-1] == 1 ):
                 return count
             else:
