@@ -8,7 +8,6 @@ for i in range(len(l1)-1):
 
 r.append(l1[-1]) # 마지막 원소 추가
 
-
 c0 = 0 # r리스트에서 '0'의 갯수 count
 c1 = 0 # r리스트에서 '1'의 갯수 count
 for i in r:
