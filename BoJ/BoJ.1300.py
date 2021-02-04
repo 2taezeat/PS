@@ -25,5 +25,4 @@ while(lower <= upper):
         answer = mid
         upper = mid - 1
 
-
 print(answer)
