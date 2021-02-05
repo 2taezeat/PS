@@ -1,6 +1,5 @@
 t = int(input())
 l1 = []
-
 for i in range(t):
     k = input()
     sum1 = 0
