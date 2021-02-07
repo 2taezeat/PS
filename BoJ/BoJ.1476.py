@@ -1,5 +1,4 @@
 e, s, m = map(int,input().split())
-
 y = 1
 E,S,M = 1,1,1
 
