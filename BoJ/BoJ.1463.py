@@ -17,4 +17,3 @@ for i in range(4,N+1):
         dplist[i] = min(dplist[i], dplist[i//2]+1 ) 
 
 print(dplist[N])
-
