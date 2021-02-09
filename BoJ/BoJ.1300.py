@@ -1,7 +1,6 @@
 # 이진탐색_1_이태경.py
 n = int(input())
 k = int(input())
-
 lower = 0
 upper = k
 answer = 0
