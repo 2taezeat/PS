@@ -13,6 +13,5 @@ for i in range(t):
     l1.append([k,len(k),sum1])
 
 l1 = sorted(l1, key = lambda x : (x[1], x[2], x[0]) )
-
 for i in range(t):
     print(l1[i][0])
