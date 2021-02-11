@@ -9,7 +9,6 @@ for i in range(t):
                 sum1 = sum1 + int(c)
         except:
             pass
-    
     l1.append([k,len(k),sum1])
 
 l1 = sorted(l1, key = lambda x : (x[1], x[2], x[0]) )
