@@ -14,7 +14,6 @@ for a in d:
         alp[ord(ch)-65] = alp[ord(ch)-65] + (1*i)
     i = i * 10
 alp.sort(reverse=True)
-
 r = 9
 sum1 = 0
 for i in alp:
