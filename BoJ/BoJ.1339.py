@@ -4,7 +4,6 @@ alp = [0] * 26
 for i in range(N):
     l1 = input()
     length = len(l1)
-
     for j in range(length-1,-1,-1):
         d[j].insert(j,l1[length - j- 1])
 
