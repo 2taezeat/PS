@@ -17,4 +17,3 @@ for i in r:
 
 # 0의 갯수와 1의 갯수중 작은값 print
 print(min(c0,c1))
-        
