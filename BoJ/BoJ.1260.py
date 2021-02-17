@@ -19,7 +19,6 @@ def dfs(graph, start_node):
     visit = {}
     stack = []  
     stack.append(start_node)
-
     while stack:
         node = stack.pop()
         if node not in visit:
