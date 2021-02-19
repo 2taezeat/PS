@@ -1,7 +1,6 @@
 while(True):
     s = input()
     p = 0
-
     if s == '0':
         break
 
