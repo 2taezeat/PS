@@ -19,4 +19,3 @@ else:
         heapq.heappush(l1,a+b)
 
     print(r)
-
