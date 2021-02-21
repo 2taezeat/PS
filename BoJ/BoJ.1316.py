@@ -9,5 +9,4 @@ for i in range(t):
             break
     
 print(t)
-
 ## str.find 를 얻어갈수있는 문제
