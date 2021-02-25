@@ -8,7 +8,6 @@ while(p==1):
 
     l1.pop(0)
 
-
     a = list(itertools.combinations(l1,6))
     for i in a:
         for j in i:
