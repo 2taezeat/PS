@@ -5,7 +5,6 @@ while(p==1):
     p = l1[0]
     if p ==0:
         break
-
     l1.pop(0)
 
     a = list(itertools.combinations(l1,6))
