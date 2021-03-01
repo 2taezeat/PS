@@ -26,6 +26,5 @@ for i in range(1000,10000):
         sum3 = sum3 + r3
         i = q3
     
-
     if sum1 == sum2 == sum3:
         print(real_i)
