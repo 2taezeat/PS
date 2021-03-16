@@ -1,9 +1,6 @@
-l1 = (1,2,3)
-l2 = [4,5,6]
+l1 = [5,6,7,8]
 
-a,b,c = l1
-print(a)
-print(b)
+for i in l1[1:-1]:
+    print(i)
 
-d,e,f = l2
-print(d)
+
