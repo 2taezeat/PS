@@ -1,72 +1,86 @@
-import itertools
-n = int(input())
-lineup = []
-l1 = [1,2,3,4,5,6,7,8]
-aa = list ( itertools.permutations(l1) )
-pp = []
-for a in aa:
-    b = list(a)
-    b.insert(3,0)
-    pp.append(b)
-for i in range(n):
-    lineup.append( list(map(int,input().split())) )
-
+import copy
+N, M, D = map(int,input().split())
+space = []
+for i in range(N):
+    space.append(list(map(int,input().split())))
+a = [0 for _ in range(M)]
+space.append(a)
 result = []
-
-p = [0,1,2,3,4,5,6,7,8]
-i = 0
-score = 0
-for l in lineup:
     
-    out_count = 0
-    base1 = 0
-    base2 = 0
-    base3 = 0
-    while(1):
-        player_number = p[i]
-        state = l[player_number]
+for i in range(M):
+    for j in range(i+1,M):
+        for k in range(j+1,M):
+            eli_count = 0
+            gameover_check = 1
+            n_space = copy.deepcopy(space)
+            n_space[N][i] = 9
+            n_space[N][j] = 9
+            n_space[N][k] = 9
+########################### attack
+
+            if i == 0 and j == 2 and k == 4:
+
+                for r in range(N):
+                    q = 1
+                    l1,l2,l3 = [],[],[]
+                    for y in range(0,N):
+                        for x in range(0,M):
+                            if n_space[y][x] == 1:
+                                distance1 = abs(y-N) + abs(x-i)
+                                distance2 = abs(y-N) + abs(x-j)
+                                distance3 = abs(y-N) + abs(x-k)
+                                #print(r,distance1,y,x,N,i)
+                                if distance1 <= D:
+                                    l1.append((distance1,y,x))
+                                if distance2 <= D:
+                                    l2.append((distance2,y,x))
+                                if distance3 <= D:
+                                    l3.append((distance3,y,x))
+
+                    l1.sort(key= lambda x: (x[0],x[2]))
+                    l2.sort(key= lambda x: (x[0],x[2]))
+                    l3.sort(key= lambda x: (x[0],x[2]))
+                    print(l1,l2,l3)
+                    if l1 != []:
+                        if n_space[l1[0][1]][l1[0][2]] == 1:
+                            n_space[l1[0][1]][l1[0][2]] = 0
+                            eli_count += 1
+                    if l2 != []:
+                        if n_space[l2[0][1]][l2[0][2]] == 1:
+                            n_space[l2[0][1]][l2[0][2]] = 0
+                            eli_count += 1
+                    if l3 != []:
+                        if n_space[l3[0][1]][l3[0][2]] == 1:
+                            n_space[l3[0][1]][l3[0][2]] = 0
+                            eli_count += 1
+
+    ########################### fall
+                    for y in range(N-2,-1,-1):
+                        for x in range(0,M):
+                            if n_space[y][x] == 1:
+                                gameover_check = 0
+
+                            n_space[y+1][x] = n_space[y][x]
+
+                    for a in range(M):
+                        n_space[0][a] = 0
+
+        ########################## gameover check
+                    if gameover_check == 1:
+                        result.append(eli_count)
+                        q = 0
+                        break
+                    print(eli_count)
+
+                    for i in range(N):
+                        print(n_space[i])
+                    print('---------------')
+
+                if q == 1:
+                    result.append(eli_count)
 
 
-        if state == 0:
-            out_count += 1
-            i = i + 1
-        elif state == 1:
-            print('#',score+base3,'#',end= '-')
-            score = score + base3
-            base3 = base2 | 0
-            base2 = base1 | 0
-            base1 = 1
-            i = i + 1
-        elif state == 2:
-            score = score + base2 + base3
-            base2 = 1
-            base3 = base1 | 0
-            base1 = 0
-            i = i + 1
-        
-        elif state == 3:
-            score = score + base1 + base2 + base3
-            base1 = 0
-            base2 = 0
-            base3 = 1
-            i = i + 1
 
-        elif state == 4:
-            score = score + base1 + base2 + base3 + 1
-            base1 = 0
-            base2 = 0
-            base3 = 0
-            i = i + 1
 
-        print(player_number,state,i,base1,base2,base3,score)
 
-        if i == 9:
-            i = 0
-
-        if out_count > 2:
-            break
-
-result.append(score)
-
-#print(result)
 print(max(result))
