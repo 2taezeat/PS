@@ -27,10 +27,8 @@ def cal(y,x,delta):
     cx = x + delta
     if cx >= 10:
         return y+1,0
-
     elif (0<= cy < 10 and 0<= cx < 10):
         return cy,cx
-
 
 def dfs(y,x, p1,p2,p3,p4,p5):
     global space
