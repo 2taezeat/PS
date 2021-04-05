@@ -1,89 +1,139 @@
-import itertools
-space = []
-for i in range(10):
-    space.append(list(map(int,input().split())))
-result_list = []
-def checking(y,x,qjadnl):
-    global space
-    for i in range(y,y+qjadnl):
-        for j in range(x,x+qjadnl):
-            if not (0<= i < 10 and 0<= j < 10):
-                return False
-            if space[i][j] == 0 or space[i][j] == 7:
-                return False
-    return True
-def paint(y,x,qjadnl):
-    global space
-    for i in range(y,y+qjadnl):
-        for j in range(x,x+qjadnl):
-            space[i][j] = 7
-def back(y,x,qjadnl):
-    global space
-    for i in range(y,y+qjadnl):
-        for j in range(x,x+qjadnl):
-            space[i][j] = 1
-def cal(y,x,delta):
-    cy = y
-    cx = x + delta
-    if cx >= 10:
-        return y+1,0
+#dice_list = list ( map(int,input().split()) )
+dice_list = [1,1,1,1,1]
+space = [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,13,16,19,22,24,28,27,26,25,30,35,99]
+akf_scroe = [[0,0], [0,0], [0,0], [0,0]] #(위치, 점수)
+answer = []
+wjdekq = []
+def next_locate(a, M):
+    if (0<= a <= 4) or (6<= a <= 9) or (11<= a <= 14): nl = a + M    
+    elif a == 5:
+        nl = 20 + M
+        if nl >= 24:
+            nl = 29 + (M-4)
+    elif a == 10:
+        nl = 23 + M
+        if nl >= 26:
+            nl = 29 + (M-3)
+    elif a == 15: nl = 25 + M
+    elif a == 20 or nl == 32: nl = 32
 
-    elif (0<= cy < 10 and 0<= cx < 10):
-        return cy,cx
+    elif a == 16:
+        if M == 1: nl = 17
+        elif M == 2: nl = 18
+        elif M == 3: nl = 19
+        elif M == 4: nl = 20
+        elif M == 5: nl = 32
+    elif a == 17:
+        if M == 1:  nl = 18
+        elif M == 2:  nl = 19
+        elif M == 3:  nl = 20
+        elif M == 4:  nl = 32
+        elif M == 5:  nl = 32
+    elif a == 18:
+        if M == 1:  nl = 19
+        elif M == 2:  nl = 20
+        elif M == 3:  nl = 32
+        elif M == 4:  nl = 32
+        elif M == 5:  nl = 32
+    elif a == 19:
+        if M == 1:  nl = 20
+        elif M == 2:  nl = 32
+        elif M == 3:  nl = 32
+        elif M == 4:  nl = 32
+        elif M == 5:  nl = 32
 
+    elif a == 29:
+        if M == 1: nl = 30
+        elif M == 2: nl = 31
+        elif M == 3: nl = 20
+        elif M == 4: nl = 32
+        elif M == 5: nl = 32
+    elif a == 30:
+        if M == 1:  nl = 31
+        elif M == 2:  nl = 20
+        elif M == 3:  nl = 32
+        elif M == 4:  nl = 32
+        elif M == 5:  nl = 32
+    elif a == 31:
+        if M == 1:  nl = 20
+        elif M == 2:  nl = 32
+        elif M == 3:  nl = 32
+        elif M == 4:  nl = 32
+        elif M == 5:  nl = 32
 
-def dfs(y,x, p1,p2,p3,p4,p5):
-    global space
-    global result_list
+    elif a == 21:
+        if M == 1: nl = 22
+        elif M == 2: nl = 23
+        elif M == 3: nl = 29
+        elif M == 4: nl = 30
+        elif M == 5: nl = 31
+    elif a == 22:
+        if M == 1: nl = 23
+        elif M == 2: nl = 29
+        elif M == 3: nl = 30
+        elif M == 4: nl = 31
+        elif M == 5: nl = 20
+    elif a == 23:
+        if M == 1: nl = 29
+        elif M == 2: nl = 30
+        elif M == 3: nl = 31
+        elif M == 4: nl = 20
+        elif M == 5: nl = 32
+
+    elif a == 24:
+        if M == 1: nl = 25
+        elif M == 2: nl = 29
+        elif M == 3: nl = 30
+        elif M == 4: nl = 31
+        elif M == 5: nl = 20
+    elif a == 25:
+        if M == 1: nl = 29
+        elif M == 2: nl = 30
+        elif M == 3: nl = 31
+        elif M == 4: nl = 20
+        elif M == 5: nl = 32
+
+    elif a == 26:
+        if M == 1: nl = 27
+        elif M == 2: nl = 28
+        elif M == 3: nl = 29
+        elif M == 4: nl = 30
+        elif M == 5: nl = 31
+    elif a == 27:
+        if M == 1: nl = 28
+        elif M == 2: nl = 29
+        elif M == 3: nl = 30
+        elif M == 4: nl = 31
+        elif M == 5: nl = 20
+    elif a == 28:
+        if M == 1: nl = 29
+        elif M == 2: nl = 30
+        elif M == 3: nl = 31
+        elif M == 4: nl = 20
+        elif M == 5: nl = 32
+    ## 범위 초과 체크
+    if nl >= 32:
+        nl = 32
     
-    # 종료 조건 2가지
-    if p1 > 5 or p2 > 5 or p3 > 5 or p4 > 5 or p5 > 5:
-        return
-    if y == 10:
-        result_list.append(p1+p2+p3+p4+p5)
-        return
+    return nl
+        
+        
+def whichakf(I,M):
+    global space
+    global akf_scroe
+    q = 0
+    for k in range(4):
+        nnnl = next_locate( akf_scroe[I][0], M)
+        if nnnl == 32:
+            continue
 
-    if space[y][x] == 0 or space[y][x] == 7:
-        ny,nx = cal(y,x,1)
-        dfs(ny,nx, p1,p2,p3,p4,p5)
+        if nnnl == akf_scroe[k][0]:
+            q == 1
+            break
+    print(nnnl)
+    if q == 0:
+        return [akf_scroe[I][0], nnnl] #(움직이기 전 위치, 움직인 위치)
 
-    else:
-        for d in range(5,0,-1):
-            if d == 5:
-                if checking(y,x,5) == True:
-                    paint(y,x,5)
-                    ny,nx = cal(y,x,5)
-                    dfs(ny,nx, p1,p2,p3,p4,p5+1)
-                    back(y,x,5)
-            elif d == 4:
-                if checking(y,x,4) == True:
-                    paint(y,x,4)
-                    ny,nx = cal(y,x,4)
-                    dfs(ny,nx, p1,p2,p3,p4+1,p5)
-                    back(y,x,4)
-            elif d == 3:
-                if checking(y,x,3) == True:
-                    paint(y,x,3)
-                    ny,nx = cal(y,x,3)
-                    dfs(ny,nx, p1,p2,p3+1,p4,p5)
-                    back(y,x,3)
-            elif d == 2:
-                if checking(y,x,2) == True:
-                    paint(y,x,2)
-                    ny,nx = cal(y,x,2)
-                    dfs(ny,nx, p1,p2+1,p3,p4,p5)
-                    back(y,x,2)
-            elif d == 1:
-                if checking(y,x,1) == True:
-                    paint(y,x,1)
-                    ny,nx = cal(y,x,1)
-                    dfs(ny,nx, p1+1,p2,p3,p4,p5)
-                    back(y,x,1)
-
-    return 
-
-dfs(0,0, 0,0,0,0,0)
-if result_list == []:
-    print(-1)
-else:
-    print(min(result_list))
+l1 = []
+for i in range(0,4):
+    l1.append( whichakf(i, 1) + [i] )
