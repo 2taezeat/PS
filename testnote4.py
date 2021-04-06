@@ -1,139 +1,134 @@
-#dice_list = list ( map(int,input().split()) )
-dice_list = [1,1,1,1,1]
-space = [0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,13,16,19,22,24,28,27,26,25,30,35,99]
-akf_scroe = [[0,0], [0,0], [0,0], [0,0]] #(위치, 점수)
-answer = []
-wjdekq = []
-def next_locate(a, M):
-    if (0<= a <= 4) or (6<= a <= 9) or (11<= a <= 14): nl = a + M    
-    elif a == 5:
-        nl = 20 + M
-        if nl >= 24:
-            nl = 29 + (M-4)
-    elif a == 10:
-        nl = 23 + M
-        if nl >= 26:
-            nl = 29 + (M-3)
-    elif a == 15: nl = 25 + M
-    elif a == 20 or nl == 32: nl = 32
-
-    elif a == 16:
-        if M == 1: nl = 17
-        elif M == 2: nl = 18
-        elif M == 3: nl = 19
-        elif M == 4: nl = 20
-        elif M == 5: nl = 32
-    elif a == 17:
-        if M == 1:  nl = 18
-        elif M == 2:  nl = 19
-        elif M == 3:  nl = 20
-        elif M == 4:  nl = 32
-        elif M == 5:  nl = 32
-    elif a == 18:
-        if M == 1:  nl = 19
-        elif M == 2:  nl = 20
-        elif M == 3:  nl = 32
-        elif M == 4:  nl = 32
-        elif M == 5:  nl = 32
-    elif a == 19:
-        if M == 1:  nl = 20
-        elif M == 2:  nl = 32
-        elif M == 3:  nl = 32
-        elif M == 4:  nl = 32
-        elif M == 5:  nl = 32
-
-    elif a == 29:
-        if M == 1: nl = 30
-        elif M == 2: nl = 31
-        elif M == 3: nl = 20
-        elif M == 4: nl = 32
-        elif M == 5: nl = 32
-    elif a == 30:
-        if M == 1:  nl = 31
-        elif M == 2:  nl = 20
-        elif M == 3:  nl = 32
-        elif M == 4:  nl = 32
-        elif M == 5:  nl = 32
-    elif a == 31:
-        if M == 1:  nl = 20
-        elif M == 2:  nl = 32
-        elif M == 3:  nl = 32
-        elif M == 4:  nl = 32
-        elif M == 5:  nl = 32
-
-    elif a == 21:
-        if M == 1: nl = 22
-        elif M == 2: nl = 23
-        elif M == 3: nl = 29
-        elif M == 4: nl = 30
-        elif M == 5: nl = 31
-    elif a == 22:
-        if M == 1: nl = 23
-        elif M == 2: nl = 29
-        elif M == 3: nl = 30
-        elif M == 4: nl = 31
-        elif M == 5: nl = 20
-    elif a == 23:
-        if M == 1: nl = 29
-        elif M == 2: nl = 30
-        elif M == 3: nl = 31
-        elif M == 4: nl = 20
-        elif M == 5: nl = 32
-
-    elif a == 24:
-        if M == 1: nl = 25
-        elif M == 2: nl = 29
-        elif M == 3: nl = 30
-        elif M == 4: nl = 31
-        elif M == 5: nl = 20
-    elif a == 25:
-        if M == 1: nl = 29
-        elif M == 2: nl = 30
-        elif M == 3: nl = 31
-        elif M == 4: nl = 20
-        elif M == 5: nl = 32
-
-    elif a == 26:
-        if M == 1: nl = 27
-        elif M == 2: nl = 28
-        elif M == 3: nl = 29
-        elif M == 4: nl = 30
-        elif M == 5: nl = 31
-    elif a == 27:
-        if M == 1: nl = 28
-        elif M == 2: nl = 29
-        elif M == 3: nl = 30
-        elif M == 4: nl = 31
-        elif M == 5: nl = 20
-    elif a == 28:
-        if M == 1: nl = 29
-        elif M == 2: nl = 30
-        elif M == 3: nl = 31
-        elif M == 4: nl = 20
-        elif M == 5: nl = 32
-    ## 범위 초과 체크
-    if nl >= 32:
-        nl = 32
-    
-    return nl
-        
-        
-def whichakf(I,M):
+import collections, itertools
+N,M = map(int,input().split())
+space,result = [],[]
+for i in range(N):
+    space.append(list(map(int,input().split())))
+dy = [-1,1,0,0]
+dx = [0,0,-1,1]
+count = 2
+def bfs(b,a, c):
     global space
-    global akf_scroe
-    q = 0
-    for k in range(4):
-        nnnl = next_locate( akf_scroe[I][0], M)
-        if nnnl == 32:
-            continue
+    q = collections.deque()
+    q.append((b,a))
+    while(q):
+        y,x = q.pop()
+        for i in range(4):
+            ny = y + dy[i]
+            nx = x + dx[i]
+            if 0<= ny < N and 0<= nx < M and space[ny][nx] == 1:
+                space[ny][nx] = c
+                q.append((ny,nx))
 
-        if nnnl == akf_scroe[k][0]:
-            q == 1
+for i in range(N):
+    for j in range(M):
+        if space[i][j] == 1 :
+            space[i][j] = count
+            bfs(i,j,count)
+            count = count + 1
+
+dhlrkr = []
+for i in range(N):
+    for j in range(M):
+        if space[i][j] > 1:
+            if ( 0<= j-1 < M and space[i][j-1] == 0 ) :
+                dhlrkr.append(( 4, space[i][j], i,j))
+
+            elif (0<= j+1 < M and space[i][j+1] == 0) :
+                dhlrkr.append(( 3, space[i][j], i,j))
+
+            elif (0<= i+1 < N and space[i+1][j] == 0) :
+                dhlrkr.append(( 2, space[i][j], i,j))
+
+            elif (0<= i-1 < N and space[i-1][j] == 0 ) :
+                dhlrkr.append(( 1, space[i][j], i,j))
+            
+gnqh = []
+def bridging(d,isld, y,x):
+    global space
+    lth = 0
+    if d == 1:
+        for i in range(y-1,-1,-1):
+            k = space[i][x]
+            if k == 0:
+                lth += 1
+            else:
+                return (isld, k, lth)
+    elif d == 2:
+        for i in range(y+1,N,+1):
+            k = space[i][x] 
+            if k == 0:
+                lth += 1
+            else:
+                return (isld, k, lth)
+    elif d == 3:
+        for j in range(x+1,M,+1):
+            k = space[y][j] 
+            if k == 0:
+                lth += 1
+            else:
+                return (isld, k, lth)
+    elif d == 4:
+        for j in range(x-1,-1,-1):
+            k = space[y][j] 
+            if k == 0:
+                lth += 1
+            else:
+                return (isld, k, lth)
+
+for (dire, island, Y,X) in dhlrkr:
+    g = bridging(dire, island, Y,X)
+    if g:
+        gnqh.append(g)
+final_list = []
+for (i1,i2,leth) in gnqh:
+    if leth > 1:
+        if (i2,i1,leth) not in final_list:
+            final_list.append((i1,i2,leth))
+comb = []
+for i in range(1,count-2+1):
+    comb.append ( list ( itertools.combinations(final_list,i)) )
+
+def link_check(ll):
+    r = []
+    al = []
+    for l in ll:
+        if len(l) > 1:
+            r.append(l[0])
+            al.append(l[0])
             break
-    print(nnnl)
-    if q == 0:
-        return [akf_scroe[I][0], nnnl] #(움직이기 전 위치, 움직인 위치)
 
-l1 = []
-for i in range(0,4):
-    l1.append( whichakf(i, 1) + [i] )
+    while(r):
+        alpha = r.pop()
+        for i in ll[alpha]:
+            if i not in al:
+                al.append(i)
+                r.append(i)
+    al.sort()
+    return al
+
+for i in range(N):
+    print(space[i])
+ori =  [ i for i in range(0,count-2) ]
+#print(ori)
+for ccc in comb:
+    for cc in ccc:
+        island_kind = [ [i] for i in range(0,count-2) ]
+        sum1 = 0
+        for c in cc:
+            a0 = c[0] - 2
+            a1 = c[1] - 2
+            island_kind[a0].append(a1)
+            island_kind[a1].append(a0)
+            sum1 = sum1 + c[2]
+        
+
+        if link_check(island_kind) == ori:
+            #print(cc)
+            result.append(sum1)
+
+
+#print(result)
+if result == []:
+    print(-1)
+else:
+    print(min(result))
