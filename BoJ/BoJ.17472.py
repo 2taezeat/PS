@@ -106,10 +106,9 @@ def link_check(ll):
     al.sort()
     return al
 
-# for i in range(N):
-#     print(space[i])
+
 ori =  [ i for i in range(0,count-2) ]
-#print(ori)
+
 for ccc in comb:
     for cc in ccc:
         island_kind = [ [i] for i in range(0,count-2) ]
@@ -121,13 +120,10 @@ for ccc in comb:
             island_kind[a1].append(a0)
             sum1 = sum1 + c[2]
         
-
         if link_check(island_kind) == ori:
-            #print(cc)
             result.append(sum1)
 
 
-#print(result)
 if result == []:
     print(-1)
 else:
