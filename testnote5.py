@@ -1,19 +1,5 @@
-def link_check(ll):
-    r = []
-    al = []
-    for l in ll:
-        if len(l) > 1:
-            r.append(l[0])
-            al.append(l[0])
-            break
-
-    while(r):
-        alpha = r.pop()
-        for i in ll[alpha]:
-            if i not in al:
-                al.append(i)
-                r.append(i)
-    
-    print(al)
-
-link_check([[0, 1, 3], [1, 0, 2], [2, 1], [3, 0]])
+arr = [[0,1,2],[3,4,5],[6,7,8]]
+result = list(zip(*arr[::-1])) # 우측 90도
+result2 = list(zip(*arr))[::-1] # 좌측 90도
+print(result)
+print(result2)

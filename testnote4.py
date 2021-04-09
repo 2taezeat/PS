@@ -1,134 +1,102 @@
-import collections, itertools
-N,M = map(int,input().split())
-space,result = [],[]
-for i in range(N):
-    space.append(list(map(int,input().split())))
-dy = [-1,1,0,0]
-dx = [0,0,-1,1]
-count = 2
-def bfs(b,a, c):
-    global space
-    q = collections.deque()
-    q.append((b,a))
-    while(q):
-        y,x = q.pop()
-        for i in range(4):
-            ny = y + dy[i]
-            nx = x + dx[i]
-            if 0<= ny < N and 0<= nx < M and space[ny][nx] == 1:
-                space[ny][nx] = c
-                q.append((ny,nx))
+import sys
+input = sys.stdin.readline
 
-for i in range(N):
-    for j in range(M):
-        if space[i][j] == 1 :
-            space[i][j] = count
-            bfs(i,j,count)
-            count = count + 1
+def cube(side, dir):
+    global u, d, f, b, l, r
+    if side == 'U' or side == 'D':
+        if side == 'U':
+            u = turn(u, dir)
+            i, j = 2, 0
+        else:
+            d = turn(d, dir)
+            i, j = 0, 2
+        temp_l = [list(x) for x in zip(*l)]
+        temp_r = [list(x) for x in zip(*r)]
+        temp = b[i]
+        if (side == 'U' and dir == '+') or (side == 'D' and dir == '-'):
+            b[i] = list(reversed(temp_l[i]))
+            temp_l[i] = f[j]
+            f[j] = list(reversed(temp_r[j]))
+            temp_r[j] = temp
+        else:
+            b[i] = temp_r[j]
+            temp_r[j] = list(reversed(f[j]))
+            f[j] = temp_l[i]
+            temp_l[i] = list(reversed(temp))
+        l = [list(x) for x in zip(*temp_l)]
+        r = [list(x) for x in zip(*temp_r)]
 
-dhlrkr = []
-for i in range(N):
-    for j in range(M):
-        if space[i][j] > 1:
-            if ( 0<= j-1 < M and space[i][j-1] == 0 ) :
-                dhlrkr.append(( 4, space[i][j], i,j))
+    elif side == 'F' or side == 'B':
+        if side == 'F':
+            f = turn(f, dir)
+            i = 2
+        else:
+            b = turn(b, dir)
+            i = 0
+        temp = u[i]
+        if (side == 'F' and dir == '+') or (side == 'B' and dir == '-'):
+            u[i] = l[i]
+            l[i] = d[i]
+            d[i] = r[i]
+            r[i] = temp
+        else:
+            u[i] = r[i]
+            r[i] = d[i]
+            d[i] = l[i]
+            l[i] = temp
 
-            if (0<= j+1 < M and space[i][j+1] == 0) :
-                dhlrkr.append(( 3, space[i][j], i,j))
-
-            if (0<= i+1 < N and space[i+1][j] == 0) :
-                dhlrkr.append(( 2, space[i][j], i,j))
-
-            if (0<= i-1 < N and space[i-1][j] == 0 ) :
-                dhlrkr.append(( 1, space[i][j], i,j))
-            
-gnqh = []
-def bridging(d,isld, y,x):
-    global space
-    lth = 0
-    if d == 1:
-        for i in range(y-1,-1,-1):
-            k = space[i][x]
-            if k == 0:
-                lth += 1
-            else:
-                return (isld, k, lth)
-    elif d == 2:
-        for i in range(y+1,N,+1):
-            k = space[i][x] 
-            if k == 0:
-                lth += 1
-            else:
-                return (isld, k, lth)
-    elif d == 3:
-        for j in range(x+1,M,+1):
-            k = space[y][j] 
-            if k == 0:
-                lth += 1
-            else:
-                return (isld, k, lth)
-    elif d == 4:
-        for j in range(x-1,-1,-1):
-            k = space[y][j] 
-            if k == 0:
-                lth += 1
-            else:
-                return (isld, k, lth)
-
-for (dire, island, Y,X) in dhlrkr:
-    g = bridging(dire, island, Y,X)
-    if g:
-        gnqh.append(g)
-final_list = []
-for (i1,i2,leth) in gnqh:
-    if leth > 1:
-        if (i2,i1,leth) not in final_list:
-            final_list.append((i1,i2,leth))
-comb = []
-for i in range(1,count-2+1):
-    comb.append ( list ( itertools.combinations(final_list,i)) )
-
-def link_check(ll):
-    r = []
-    al = []
-    for l in ll:
-        if len(l) > 1:
-            r.append(l[0])
-            al.append(l[0])
-            break
-
-    while(r):
-        alpha = r.pop()
-        for i in ll[alpha]:
-            if i not in al:
-                al.append(i)
-                r.append(i)
-    al.sort()
-    return al
-
-# for i in range(N):
-#     print(space[i])
-ori =  [ i for i in range(0,count-2) ]
-#print(ori)
-for ccc in comb:
-    for cc in ccc:
-        island_kind = [ [i] for i in range(0,count-2) ]
-        sum1 = 0
-        for c in cc:
-            a0 = c[0] - 2
-            a1 = c[1] - 2
-            island_kind[a0].append(a1)
-            island_kind[a1].append(a0)
-            sum1 = sum1 + c[2]
-        
-
-        if link_check(island_kind) == ori:
-            #print(cc)
-            result.append(sum1)
+    elif side == 'L' or side == 'R':
+        if side == 'L':
+            l = turn(l, dir)
+            i, j = 0, 2
+        else:
+            r = turn(r, dir)
+            i, j = 2, 0
+        temp_u = [list(x) for x in zip(*u)]
+        temp_d = [list(x) for x in zip(*d)]
+        temp_f = [list(x) for x in zip(*f)]
+        temp_b = [list(x) for x in zip(*b)]
+        temp = temp_b[i]
+        if (side == 'L' and dir == '+') or (side == 'R' and dir == '-'):
+            temp_b[i] = list(reversed(temp_d[j]))
+            temp_d[j] = list(reversed(temp_f[i]))
+            temp_f[i] = temp_u[i]
+            temp_u[i] = temp
+        else:
+            temp_b[i] = temp_u[i]
+            temp_u[i] = temp_f[i]
+            temp_f[i] = list(reversed(temp_d[j]))
+            temp_d[j] = list(reversed(temp))
+        u = [list(x) for x in zip(*temp_u)]
+        d = [list(x) for x in zip(*temp_d)]
+        f = [list(x) for x in zip(*temp_f)]
+        b = [list(x) for x in zip(*temp_b)]
 
 
-#print(result)
-if result == []:
-    print(-1)
-else:
-    print(min(result))
+def turn(side, dir):
+    if dir == '+':
+        return [list(reversed(x)) for x in zip(*side)]
+    else:
+        side = [list(x) for x in zip(*side)]
+        temp = side[0]
+        side[0] = side[2]
+        side[2] = temp
+        return side
+
+
+tc = int(input())
+for _ in range(tc):
+    u = [['w' for _ in range(3)] for _ in range(3)]
+    d = [['y' for _ in range(3)] for _ in range(3)]
+    f = [['r' for _ in range(3)] for _ in range(3)]
+    b = [['o' for _ in range(3)] for _ in range(3)]
+    l = [['g' for _ in range(3)] for _ in range(3)]
+    r = [['b' for _ in range(3)] for _ in range(3)]
+
+    n = int(input())
+    case = list(input().strip().split())
+    for k in case:
+        side, dir = list(k)
+        cube(side, dir)
+    for s in u:
+        print(''.join(s))
