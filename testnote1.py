@@ -49,15 +49,19 @@ for i in range(k):
     chess[i] = [x-1, y-1, z-1]
 
 cnt = 1
-while cnt <= 10:
+while cnt <= 3:
     for i in range(k):
+        for i in range(n):
+            print(chess_map[i])
+        print('---------------------')
         flag = move(i)
+
+        for i in range(n):
+            print(chess_map[i])
         if flag:
             print(cnt)
             sys.exit()
 
-    for i in range(n):
-        print(chess_map[i])
-    print('---------------------')
+
     cnt += 1
 print(-1)

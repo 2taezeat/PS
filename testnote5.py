@@ -39,13 +39,10 @@ for turn in range(1,3):
                 
     for (i,d,y,x) in tmp_ll:
         print(y,x,i)
-
-
         #reve = copy.deepcopy(akf[y][x])
 
         for b in range(1,N+1):
             for a in range(1,N+1):
-                #ttmp = akf[b][a]
                 for (i0,d0,y0,x0) in akf[b][a]:
                     if i0 == i:
                         reve = copy.deepcopy(akf[b][a])
@@ -58,6 +55,7 @@ for turn in range(1,3):
                 break
         
         print('reve',reve)
+        print('d',d)
 
         for o in range( len(akf[y][x])-z ):
             akf[y][x].pop()
@@ -65,7 +63,7 @@ for turn in range(1,3):
         if d == 1:
             ny = y + dy[1]
             nx = x + dx[1] # <-
-
+            print(ny,nx)
             if space_color[ny][nx] == 0:
                 for (I,D,Y,X) in reve[z:]:
                     akf[ny][nx].append([I,D,Y+dy[1],X+dx[1]])
@@ -83,6 +81,8 @@ for turn in range(1,3):
                 ny2 = ny + dy[2] # 제자리에서 다시 움직임. <-, 제자리, ->
                 nx2 = nx + dx[2]
 
+                print('ny2,nx2', ny2,nx2)
+
                 if space_color[ny2][nx2] == 0:
                     for (I,D,Y,X) in reve[z:]:
                         if I == i:
@@ -92,6 +92,7 @@ for turn in range(1,3):
 
 
                 elif space_color[ny2][nx2] == 1:
+                    print(777777777777777777777)
                     for (I,D,Y,X) in reve[z:][::-1]:
                         if I == i:
                             akf[ny2][nx2].append( [i,2,ny2,nx2] )
@@ -239,7 +240,7 @@ for turn in range(1,3):
                             akf[ny3][nx3].append([I,D,Y,X])
 
         for i in range(1,N+1):
-            print(akf[i])
+            print(akf[i][1:N+1])
 
         print('~~~~~~~~~~~~~~~~~~~~')
             
