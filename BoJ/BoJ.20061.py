@@ -5,7 +5,6 @@ dy = [0,1]
 dx = [1,0]
 def move_right(t,y,x):
     global space
-
     if t == 1:
         for j in range(x,9):
             ny1 = y + dy[0]
@@ -13,8 +12,8 @@ def move_right(t,y,x):
             if space[ny1][nx1] == 1:
                 space[y][x] = 1
                 break
-            elif nx1 == 10:
-                space[ny1][nx1-1] = 1
+            elif nx1 == 9:
+                space[ny1][nx1] = 1
 
             y = ny1
             x = nx1
@@ -25,14 +24,12 @@ def move_right(t,y,x):
         for j in range(x,9):
             ny2 = y + dy[0]
             nx2 = x + dx[0]
-            print('ny2,nx2',ny2,nx2)
             if space[ny2][nx2] == 1:
                 space[ny2][nx2-2] = 1
                 space[ny2][nx2-1] = 1
                 break
-            elif nx2 == 10:
-                print('ny2,nx2',ny2,nx2)
-                space[ny2][nx2-2] = 1
+            elif nx2 == 9:
+                space[ny2][nx2] = 1
                 space[ny2][nx2-1] = 1
 
             y = ny2
@@ -50,17 +47,14 @@ def move_right(t,y,x):
 
             ny2 = y2 + dy[0]
             nx2 = x2 + dx[0]
-
             if space[ny1][nx1] == 1 or space[ny2][nx2] == 1:
                 space[y1][x1] = 1
                 space[y2][x2] = 1
                 break
-            
-            elif nx1 == 10 or nx2 == 10:
-                space[ny1][nx1-1] = 1
-                space[ny2][nx2-1] = 1
-
-
+        
+            elif nx1 == 9 or nx2 == 9:
+                space[ny1][nx1] = 1
+                space[ny2][nx2] = 1
             y1 = ny1
             x1 = nx1
             y2 = ny2
@@ -68,17 +62,15 @@ def move_right(t,y,x):
 
 def move_down(t,y,x):
     global space
-    
     if t == 1:
         for _ in range(y,9):
             ny1 = y + dy[1]
             nx1 = x + dx[1]
-            if ny1 == 10:
-                space[ny1-1][nx1] = 1
-            elif space[ny1][nx1] == 1:
+            if space[ny1][nx1] == 1:
                 space[y][x] = 1
                 break
-
+            elif ny1 == 9:
+                space[ny1][nx1] = 1
             y = ny1
             x = nx1
                 
@@ -94,16 +86,14 @@ def move_down(t,y,x):
 
             ny2 = y2 + dy[1]
             nx2 = x2 + dx[1]
-
             if space[ny1][nx1] == 1 or space[ny2][nx2] == 1:
                 space[y1][x1] = 1
                 space[y2][x2] = 1
                 break
             
-            elif ny1 == 10 or ny2 == 10:
-                space[ny1-1][nx1] = 1
-                space[ny2-1][nx2] = 1
-
+            elif ny1 == 9 or ny2 == 9:
+                space[ny1][nx1] = 1
+                space[ny2][nx2] = 1
             y1 = ny1
             x1 = nx1
             y2 = ny2
@@ -119,10 +109,9 @@ def move_down(t,y,x):
                 space[ny2-1][nx2] = 1
                 space[ny2-2][nx2] = 1
                 break
-            elif ny2 == 10:
+            elif ny2 == 9:
                 space[ny2-1][nx2] = 1
-                space[ny2-2][nx2] = 1
-
+                space[ny2][nx2] = 1
             y = ny2
             x = nx2
 
@@ -168,7 +157,6 @@ def down_score():
             space[4][2] = 0
             space[4][3] = 0
 
-
 def dusgks_green():
     global space
     real_count = 0
@@ -192,7 +180,6 @@ def dusgks_green():
         space[4][1] = 0
         space[4][2] = 0
         space[4][3] = 0
-
 
 def dusgks_blue():
     global space
@@ -218,9 +205,6 @@ def dusgks_blue():
         space[2][4] = 0
         space[3][4] = 0
 
-
-
-
 for i in range(N):
     t, x, y = map(int,input().split())
     b = x
@@ -232,16 +216,8 @@ for i in range(N):
     right_score()
     down_score()
 
-    # for k in range(10):
-    #     print(space[k])
-    # print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
-
     dusgks_green()
     dusgks_blue()
-
-    for k in range(10):
-        print(space[k])
-    print('----------------------------')
 
 
 blue = 0
