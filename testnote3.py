@@ -1,250 +1,234 @@
-import copy
-N, K = map(int,input().split())
-space_color = [[2]*(N+2) ]
-dy = [99,0,0,-1,1]
-dx = [99,1,-1,0,0]
-for i in range(N):
-    a = [2]
-    a = a + list ( map(int,input().split()) )
-    a = a + [2]
-    space_color.append( a )
-space_color.append([2]*(N+2) )
-akf = [[[] * (N+2) for i in range(N+2)] for i in range(N+2)]
-for i in range(1,K+1):
-    y,x,d = map(int,input().split())
-    akf[y][x].append( [i,d,y,x] )
+N = int(input())
+space = [[0]*10 for i in range(10)]
+answer = 0
+dy = [0,1]
+dx = [1,0]
+def move_right(t,y,x):
+    global space
+    if t == 1:
+        for j in range(x,9):
+            ny1 = y + dy[0]
+            nx1 = x + dx[0]
+            if space[ny1][nx1] == 1:
+                space[y][x] = 1
+                break
+            elif nx1 == 9:
+                space[ny1][nx1] = 1
 
-for turn in range(0,2):
-    ll = []
-    for b in range(1,N+1):
-        for a in range(1,N+1):
-            info = akf[b][a]
-            l_i = len( info )
-            if l_i > 0:
-                if l_i == K:
-                    print(turn)
-                    exit()
-                else:
-                    ll.append(info)
-
-    tmp_ll = []
-    for l in ll:
-        for (i,d,y,x) in l:
-            tmp_ll.append([i,d,y,x])
-    tmp_ll.sort()
+            y = ny1
+            x = nx1
                 
-    for (i,d,y,x) in tmp_ll:
+    elif t == 2:
+        y = y 
+        x = x + 1
+        for j in range(x,9):
+            ny2 = y + dy[0]
+            nx2 = x + dx[0]
+            if space[ny2][nx2] == 1:
+                space[ny2][nx2-2] = 1
+                space[ny2][nx2-1] = 1
+                break
+            elif nx2 == 9:
+                space[ny2][nx2] = 1
+                space[ny2][nx2-1] = 1
 
-        for b in range(1,N+1):
-            for a in range(1,N+1):
-                INFO = akf[b][a]
-                l_i = len( INFO )
-                if l_i == K:
-                    print(turn)
-                    exit()
+            y = ny2
+            x = nx2
 
+    elif t == 3:
+        y1 = y
+        x1 = x 
 
-        reve = copy.deepcopy(akf[y][x])
-        for idx in range(len(reve)):
-            if reve[idx][0] == i:
-                z = idx
+        y2 = (y+1)
+        x2 = x
+        for j in range(x,9):
+            ny1 = y1 + dy[0]
+            nx1 = x1 + dx[0]
+
+            ny2 = y2 + dy[0]
+            nx2 = x2 + dx[0]
+            if space[ny1][nx1] == 1 or space[ny2][nx2] == 1:
+                space[y1][x1] = 1
+                space[y2][x2] = 1
+                break
+        
+            elif nx1 == 9 or nx2 == 9:
+                space[ny1][nx1] = 1
+                space[ny2][nx2] = 1
+            y1 = ny1
+            x1 = nx1
+            y2 = ny2
+            x2 = nx2
+
+def move_down(t,y,x):
+    global space
+    if t == 1:
+        for _ in range(y,9):
+            ny1 = y + dy[1]
+            nx1 = x + dx[1]
+            if space[ny1][nx1] == 1:
+                space[y][x] = 1
+                break
+            elif ny1 == 9:
+                space[ny1][nx1] = 1
+            y = ny1
+            x = nx1
+                
+    elif t == 2:
+        y1 = y
+        x1 = x 
+
+        y2 = y
+        x2 = (x+1)
+        for _ in range(y,9):
+            ny1 = y1 + dy[1]
+            nx1 = x1 + dx[1]
+
+            ny2 = y2 + dy[1]
+            nx2 = x2 + dx[1]
+            if space[ny1][nx1] == 1 or space[ny2][nx2] == 1:
+                space[y1][x1] = 1
+                space[y2][x2] = 1
+                break
+            
+            elif ny1 == 9 or ny2 == 9:
+                space[ny1][nx1] = 1
+                space[ny2][nx2] = 1
+            y1 = ny1
+            x1 = nx1
+            y2 = ny2
+            x2 = nx2
+
+    elif t == 3:
+        y = y + 1
+        x = x
+        for _ in range(y,9):
+            ny2 = y + dy[1]
+            nx2 = x + dx[1]
+            if space[ny2][nx2] == 1:
+                space[ny2-1][nx2] = 1
+                space[ny2-2][nx2] = 1
+                break
+            elif ny2 == 9:
+                space[ny2-1][nx2] = 1
+                space[ny2][nx2] = 1
+            y = ny2
+            x = nx2
+
+def right_score():
+    global answer
+    for j in range(4,10):
+        count = 0
+        for i in range(0,4):
+            if space[i][j] == 1:
+                count +=1
+            else:
+                break
+        if count == 4:
+            answer += 1
+            
+            for J in range(j,4,-1):
+                for I in range(0,4):
+                    space[I][J] = space[I][J-1]
+            
+            space[0][4] = 0
+            space[1][4] = 0
+            space[2][4] = 0
+            space[3][4] = 0
+
+def down_score():
+    global answer
+    for i in range(4,10):
+        count = 0
+        for j in range(0,4):
+            if space[i][j] == 1:
+                count +=1
+            else:
+                break
+        if count == 4:
+            answer += 1
+            
+            for I in range(i,4,-1):
+                for J in range(0,4):
+                    space[I][J] = space[I-1][J]
+            
+            space[4][0] = 0
+            space[4][1] = 0
+            space[4][2] = 0
+            space[4][3] = 0
+
+def dusgks_green():
+    global space
+    real_count = 0
+    for i in range(4,6):
+        count = 0
+        for j in range(0,4):
+            if space[i][j] == 1:
+                count += 1
                 break
 
-        for o in range( len(akf[y][x])-z ):
-            akf[y][x].pop()
+        if count >= 1:
+            real_count += 1
 
-        if d == 1:
-            ny = y + dy[1]
-            nx = x + dx[1] # <-
+    for _ in range(real_count):
 
-            if space_color[ny][nx] == 0:
-                for (I,D,Y,X) in reve[z:]:
-                    akf[ny][nx].append([I,D,Y+dy[1],X+dx[1]])
-            
-            elif space_color[ny][nx] == 1:
-                for (I,D,Y,X) in reve[z:][::-1]:
-                    akf[ny][nx].append([I,D,Y+dy[1],X+dx[1]])
+        for I in range(9,4,-1):
+            for J in range(0,4):
+                space[I][J] = space[I-1][J]
+                
+        space[4][0] = 0
+        space[4][1] = 0
+        space[4][2] = 0
+        space[4][3] = 0
 
+def dusgks_blue():
+    global space
+    real_count = 0
+    for j in range(4,6):
+        count = 0
+        for i in range(0,4):
+            if space[i][j] == 1:
+                count += 1
+                break
 
-            elif space_color[ny][nx] == 2:
-                d = 2 # 벽 붙히져서 다시 원래 재 자리로 이동 // <-, 제자리
-                ny = ny + dy[2]
-                nx = nx + dx[2]
+        if count >= 1:
+            real_count += 1
 
-                ny2 = ny + dy[2] # 제자리에서 다시 움직임. <-, 제자리, ->
-                nx2 = nx + dx[2]
+    for _ in range(real_count):
 
-                if space_color[ny2][nx2] == 0:
-                    for (I,D,Y,X) in reve[z:]:
-                        if I == i:
-                            akf[ny2][nx2].append( [i,2,ny2,nx2] )
-                        else:
-                            akf[ny2][nx2].append([I,D,Y+dy[2],X+dx[2]])
+        for J in range(9,4,-1):
+            for I in range(0,4):
+                space[I][J] = space[I][J-1]
+                
+        space[0][4] = 0
+        space[1][4] = 0
+        space[2][4] = 0
+        space[3][4] = 0
 
+for i in range(N):
+    t, x, y = map(int,input().split())
+    b = x
+    a = y
 
-                elif space_color[ny2][nx2] == 1:
-                    for (I,D,Y,X) in reve[z:][::-1]:
-                        if I == i:
-                            akf[ny2][nx2].append( [i,2,ny2,nx2] )
-                        else:
-                            akf[ny2][nx2].append([I,D,Y+dy[2],X+dx[2]])
+    move_right(t,b,a)
+    move_down(t,b,a)
 
-                elif space_color[ny2][nx2] == 2:
-                    ny3 = ny2 + dy[1] # <-, '제자리', ->, 다시 '제자리', 방향은 안바꿈
-                    nx3 = nx2 + dx[1]
-                    for (I,D,Y,X)  in reve[z:]:
-                        if I == i:
-                            akf[ny3][nx3].append( [i,2,ny3,nx3] )
-                        else:
-                            akf[ny3][nx3].append([I,D,Y,X])
+    right_score()
+    down_score()
 
-        elif d == 2:
-            ny = y + dy[2]
-            nx = x + dx[2] # <-
-
-            if space_color[ny][nx] == 0:
-                for (I,D,Y,X) in reve[z:]:
-                    akf[ny][nx].append([I,D,Y+dy[2],X+dx[2]])
-
-            elif space_color[ny][nx] == 1:
-                for (I,D,Y,X) in reve[z:][::-1]:
-                    akf[ny][nx].append([I,D,Y+dy[2],X+dx[2]])
+    dusgks_green()
+    dusgks_blue()
 
 
-            elif space_color[ny][nx] == 2:
-                d = 1 # 벽 붙히져서 다시 원래 재 자리로 이동 // <-, 제자리
-                ny = ny + dy[1]
-                nx = nx + dx[1]
-
-                ny2 = ny + dy[1] # 제자리에서 다시 움직임. <-, 제자리, ->
-                nx2 = nx + dx[1]
-
-                if space_color[ny2][nx2] == 0:
-                    for (I,D,Y,X) in reve[z:]:
-                        if I == i:
-                            akf[ny2][nx2].append( [i,1,ny2,nx2] )
-                        else:
-                            akf[ny2][nx2].append([I,D,Y+dy[1],X+dx[1]])
-
-
-                elif space_color[ny2][nx2] == 1:
-                    for (I,D,Y,X) in reve[z:][::-1]:
-                        if I == i:
-                            akf[ny2][nx2].append( [i,1,ny2,nx2] )
-                        else:
-                            akf[ny2][nx2].append([I,D,Y+dy[1],X+dx[1]])
-
-                elif space_color[ny2][nx2] == 2:
-                    ny3 = ny2 + dy[2] # <-, '제자리', ->, 다시 '제자리', 방향은 안바꿈
-                    nx3 = nx2 + dx[2]
-
-                    for (I,D,Y,X)  in reve[z:]:
-                        if I == i:
-                            akf[ny3][nx3].append( [i,1,ny3,nx3] )
-                        else:
-                            akf[ny3][nx3].append([I,D,Y,X])
-
-        elif d == 3:
-            ny = y + dy[3]
-            nx = x + dx[3] # <-
-
-            if space_color[ny][nx] == 0:
-                for (I,D,Y,X) in reve[z:]:
-                    akf[ny][nx].append([I,D,Y+dy[3],X+dx[3]])
-            elif space_color[ny][nx] == 1:
-                for (I,D,Y,X) in reve[z:][::-1]:
-                    akf[ny][nx].append([I,D,Y+dy[3],X+dx[3]])
-
-            elif space_color[ny][nx] == 2:
-                d = 4 # 벽 붙히져서 다시 원래 재 자리로 이동 // <-, 제자리
-                ny = ny + dy[4]
-                nx = nx + dx[4]
-
-                ny2 = ny + dy[4] # 제자리에서 다시 움직임. <-, 제자리, ->
-                nx2 = nx + dx[4]
-
-                if space_color[ny2][nx2] == 0:
-                    for (I,D,Y,X) in reve[z:]:
-                        if I == i:
-                            akf[ny2][nx2].append( [i,4,ny2,nx2] )
-                        else:
-                            akf[ny2][nx2].append([I,D,Y+dy[4],X+dx[4]])
-
-                elif space_color[ny2][nx2] == 1:
-                    for (I,D,Y,X) in reve[z:][::-1]:
-                        if I == i:
-                            akf[ny2][nx2].append( [i,4,ny2,nx2] )
-                        else:
-                            akf[ny2][nx2].append([I,D,Y+dy[4],X+dx[4]])
-
-                elif space_color[ny2][nx2] == 3:
-                    ny3 = ny2 + dy[3] # <-, '제자리', ->, 다시 '제자리', 방향은 안바꿈
-                    nx3 = nx2 + dx[3]
-                    for (I,D,Y,X)  in reve[z:]:
-                        if I == i:
-                            akf[ny3][nx3].append( [i,4,ny3,nx3] )
-                        else:
-                            akf[ny3][nx3].append([I,D,Y,X])
-
-        elif d == 4:
-            ny = y + dy[4]
-            nx = x + dx[4] # <-
-
-            if space_color[ny][nx] == 0:
-                for (I,D,Y,X) in reve[z:]:
-                    akf[ny][nx].append([I,D,Y+dy[4],X+dx[4]])
-
-            elif space_color[ny][nx] == 1:
-                for (I,D,Y,X) in reve[z:][::-1]:
-                    akf[ny][nx].append([I,D,Y+dy[4],X+dx[4]])
-
-            elif space_color[ny][nx] == 2:
-                d = 3 # 벽 붙히져서 다시 원래 재 자리로 이동 // <-, 제자리
-                ny = ny + dy[3]
-                nx = nx + dx[3]
-
-                ny2 = ny + dy[3] # 제자리에서 다시 움직임. <-, 제자리, ->
-                nx2 = nx + dx[3]
-
-                if space_color[ny2][nx2] == 0:
-                    for (I,D,Y,X) in reve[z:]:
-                        if I == i:
-                            akf[ny2][nx2].append( [i,3,ny2,nx2] )
-                        else:
-                            akf[ny2][nx2].append([I,D,Y+dy[3],X+dx[3]])
-
-
-                elif space_color[ny2][nx2] == 1:
-                    for (I,D,Y,X) in reve[z:][::-1]:
-                        if I == i:
-                            akf[ny2][nx2].append( [i,3,ny2,nx2] )
-                        else:
-                            akf[ny2][nx2].append([I,D,Y+dy[3],X+dx[3]])
-
-                elif space_color[ny2][nx2] == 4:
-                    ny3 = ny2 + dy[4] # <-, '제자리', ->, 다시 '제자리', 방향은 안바꿈
-                    nx3 = nx2 + dx[4]
-                    for (I,D,Y,X)  in reve[z:]:
-                        if I == i:
-                            akf[ny3][nx3].append( [i,3,ny3,nx3] )
-                        else:
-                            akf[ny3][nx3].append([I,D,Y,X])
-        for i in range(1,N+1):
-            print(akf[i])
-
-        print('@@@@@@@@@@@@@@')
-
-        # for b in range(1,N+1):
-        #     for a in range(1,N+1):
-        #         INFO = akf[b][a]
-        #         l_i = len( INFO )
-        #         if l_i == K:
-        #             print(turn)
-        #             exit()
-
-
-    print('---------------------')
-
-
-    
-print(-1)
+blue = 0
+green = 0
+for i in range(0,4):
+    for j in range(4,10):
+        if space[i][j] == 1:
+            blue += 1
+for i in range(4,10):
+    for j in range(0,4):
+        if space[i][j] == 1:
+            green += 1
+print(answer)
+print(green + blue)
