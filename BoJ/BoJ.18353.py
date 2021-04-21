@@ -13,5 +13,4 @@ for i in range(1,n):
         if l1[i] < l1[j]: #        기존값
             dp[i] = max(dp[j] + 1, dp[i])
 
-
 print(n - max(dp))
