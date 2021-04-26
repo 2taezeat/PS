@@ -8,22 +8,20 @@ def solution(gems):
             del dict1[gems[i]]
         except:
             pass
-
         dict1[gems[i]] = i
 
-        #print(dict1)
 
         if len(dict1) == length:
-            vl2 = dict1.values()
-            a = min(vl2)
-            b = max(vl2)
-
-            # vl = list(dict1.values())
-            gnqh.append([b-a, a+1, b+1])
+            vl = list(dict1.values())
+            if vl[-1] == vl[0]:
+                return vl[0]+1, vl[-1]+1
+            else:
+                gnqh.append([vl[-1]-vl[0], vl[0]+1, vl[-1]+1])
     
-
     gnqh.sort()
     return gnqh[0][1], gnqh[0][2]
+
+
 
 
 print( solution(["DIA", "RUBY", "RUBY", "RUBY", "RUBY", "EMERALD", "SAPPHIRE", "DIA"]) )
