@@ -8,8 +8,8 @@ def solution(gems):
             del dict1[gems[i]]
         except:
             pass
+    
         dict1[gems[i]] = i
-
 
         if len(dict1) == length:
             vl = list(dict1.values())
