@@ -1,30 +1,52 @@
-from itertools import permutations
+dy = [1,-1,0,0]
+dx = [0,0,-1,1]
+result = []
 
-def isMatch(user_set, banned_set):
-    for i in range(len(user_set)):
-        if len(user_set[i])!=len(banned_set[i]):
-            return False
-        for j in range(len(user_set[i])):
-            if banned_set[i][j]=='*':
-                continue
-            if user_set[i][j]!=banned_set[i][j]:
-                return False
-    return True
+def solution(board):
+    dfs(0,0,board,[])
+
+    return min(result)
+
+
+def dfs(y,x,board,wkcnl):
+    global result
+    N = len(board)
     
-def solution(user_id, banned_id):
-    ans=[]
-    for com_set in permutations(user_id, len(banned_id)):
-        if isMatch(com_set, banned_id):
-            com_set = set(com_set) # 중복 제거
-            if com_set not in ans:
-                ans.append(com_set)
-    return len(ans)
+    if y == N-1 and x == N-1:
+        print(wkcnl)
+        cost = 100*len(wkcnl)
+        count_90 = 0
+        for g in range( 0, len(wkcnl)-1 ):
+            if wkcnl[g] != wkcnl[g+1]:
+                count_90 += 1
 
+        cost = cost + (count_90 * 500)
+        result.append(cost)
 
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["fr*d*", "abc1**"] ))
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["*rodo", "*rodo", "******"]))
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["fr*d*", "*rodo", "******", "******"]))
+        return 
 
+    board[y][x] = 2
 
+    if 0<= y < N and 0<= x+1 < N and board[y][x+1] == 0 :
+        wkcnl.append(1)
+        dfs(y,x+1,board,wkcnl)
+        wkcnl.pop()
 
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"], ["*rodo", "*rodo", "******","fr*d*"] ) )
+    if 0<= y < N and 0<= x-1 < N and board[y][x-1] == 0 :
+        wkcnl.append(2)
+        dfs(y,x-1,board,wkcnl)
+        wkcnl.pop()
+
+    if 0<= y-1 < N and 0<= x < N and board[y-1][x] == 0 :
+        wkcnl.append(3)
+        dfs(y-1,x,board,wkcnl)
+        wkcnl.pop()
+    
+    if 0<= y+1 < N and 0<= x < N and board[y+1][x] == 0 :
+        wkcnl.append(4)
+        dfs(y+1,x,board,wkcnl)
+        wkcnl.pop()
+
+    board[y][x] = 0
+
+print (solution(   [[0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0],[0,0,0,0,0,1,0,0],[0,0,0,0,1,0,0,0],[0,0,0,1,0,0,0,1],[0,0,1,0,0,0,1,0],[0,1,0,0,0,1,0,0],[1,0,0,0,0,0,0,0]]    ) )

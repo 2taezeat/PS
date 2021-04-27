@@ -1,34 +1,31 @@
-import re,itertools
-def solution(user_id, banned_id):
-    answer = 0
-    gnqh = []
-    for bb in banned_id:
-        reg = ''
-        semi = []
-        for b in bb:
-            if b == '*':
-                reg = reg + '.'
-            else:
-                reg = reg + b
-        
+board = [[0,0,0],[0,0,0],[0,0,0]]
 
-        p = re.compile(reg)
-        for uu in user_id:
-            m = p.match(uu)
-            if m:
-                if m.end() == len(uu):
-                    semi.append(uu)
+def dfs(y,x,board):
+    N = len(board)
+    
 
-        gnqh.append(semi)
+    if y == N-1 and x == N-1:
+        return
 
-    set1 = set()
-    for i in range(len(gnqh)):
-        l = []
-        for j in gnqh[i]:
-            l.append(j)
-        
+    visited[y][x] = 1 # 방문 했음.
+    board[y][x] = 2
+    print(board)
 
+    if 0<= y < N and 0<= x+1 < N and board[y][x+1] != 1 and visited[y][x+1] == 0:
+        dfs(y,x+1,board)
 
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["fr*d*", "abc1**"] ))
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["*rodo", "*rodo", "******"]))
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["fr*d*", "*rodo", "******", "******"]))
+    if 0<= y < N and 0<= x-1 < N and board[y][x-1] != 1 and visited[y][x-1] == 0:
+        dfs(y,x-1,board)
+
+    if 0<= y-1 < N and 0<= x < N and board[y-1][x] != 1 and visited[y-1][x] == 0:
+        dfs(y-1,x,board)
+    
+    if 0<= y+1 < N and 0<= x < N and board[y+1][x] != 1 and visited[y+1][x] == 0:
+        dfs(y+1,x,board)
+
+    visited[y][x] = 0
+    board[y][x] = 0
+
+visited = [[0 for _ in range(3)] for _ in range(3)]
+dfs(0,0,board)
+

@@ -36,15 +36,16 @@ def dfs(y,x,board,wkcnl):
         dfs(y,x+1,board,wkcnl)
         wkcnl.pop()
 
+    if 0<= y-1 < N and 0<= x < N and board[y-1][x] == 0 :
+        wkcnl.append(3)
+        dfs(y-1,x,board,wkcnl)
+        wkcnl.pop()
+
     if 0<= y < N and 0<= x-1 < N and board[y][x-1] == 0 :
         wkcnl.append(2)
         dfs(y,x-1,board,wkcnl)
         wkcnl.pop()
 
-    if 0<= y-1 < N and 0<= x < N and board[y-1][x] == 0 :
-        wkcnl.append(3)
-        dfs(y-1,x,board,wkcnl)
-        wkcnl.pop()
     
     if 0<= y+1 < N and 0<= x < N and board[y+1][x] == 0 :
         wkcnl.append(4)
