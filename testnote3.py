@@ -1,57 +1,24 @@
-import re,itertools
-def solution(user_id, banned_id):
-    answer = 0
-    gnqh = []
-    per = list( itertools.permutations(user_id, len(banned_id)))
-    b_reg = []
+def solution(numbers):
+    numbers = list(map(str,numbers))
+    semi = []
+    for i in numbers:
+        semi.append(i*3)
+    semi.sort(reverse=True)
 
-    for bb in banned_id:
-        reg = ''
-        for b in bb:
-            if b == '*':
-                reg = reg + '.'
-            else:
-                reg = reg + b
-        b_reg.append(reg)
-
-
-
-        p = re.compile(reg)
-        for uuu in per:
-            #print(uu)
-            for uu in uuu:
-
-                m = p.match(uu)
-                if m:
-                    if m.end() == len(uu):
-                        semi.append(uu)
-
-        gnqh.append(set(semi))
-
-    #print(gnqh,len(gnqh))
-    print(gnqh)
-    if gnqh == []:
-        return 0
-
-    a = list(itertools.product(*gnqh))
-
-            
+    semi2 = []
+    ans = ''
+    for i in semi:
+        k = list(i)
+        semi2.append( k[:len(i)//3] )
     
+    ans = ''
+    for j in semi2:
+        for i in j:
+            ans = ans + i
+    ans = int(ans)
+    return str(ans)
 
-    set1 = set()
-    for aa in a:
-        sa = set(aa)
-        set1.add( tuple(sa) )
-
-    #print(set1)
-
-    for s in set1:
-        if len(s) == len(gnqh):
-            answer += 1
-    return answer
-
-
-
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["fr*d*", "abc1**"] ))
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["*rodo", "*rodo", "******"]))
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["fr*d*", "*rodo", "******", "******"]))
+print ( solution ([6, 10, 2]) )
+print( solution ( [3, 30, 34, 5, 9]) )
+print( solution ( [151,15,1]) )
+print( solution ( [0,0,0,0]) )
