@@ -1,5 +1,6 @@
 board = [[0,0,0],[0,0,0],[0,0,0]]
 
+
 def dfs(y,x,board):
     N = len(board)
     
