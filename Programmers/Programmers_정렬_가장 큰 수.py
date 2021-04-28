@@ -7,6 +7,7 @@ def solution(numbers):
 
     semi2 = []
     ans = ''
+    
     for i in semi:
         k = list(i)
         semi2.append( k[:len(i)//3] )
