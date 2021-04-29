@@ -25,7 +25,7 @@ def solution(gems):
 
 
 
-#print( solution(["DIA", "RUBY", "RUBY", "RUBY", "RUBY", "EMERALD", "SAPPHIRE", "DIA"]) )
+print( solution(["DIA", "RUBY", "RUBY", "RUBY", "RUBY", "EMERALD", "SAPPHIRE", "DIA"]) )
 print( solution(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]) )
 # print( solution(["AA", "AB", "AC", "AA", "AC"]) )
 # print( solution(["XYZ", "XYZ", "XYZ"]) )
