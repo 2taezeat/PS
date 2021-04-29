@@ -1,61 +1,49 @@
-import re
+import itertools, re
+from bisect import bisect_left, bisect_right
+from collections import defaultdict
+
 def solution(info, query):
-    list1 = []
     result = []
+    d = defaultdict(list)
+    pro = list ( itertools.product([1,0], repeat=4))
     for i in range(len(info)):        
         aa = info[i].split(' ')
-        d = dict()
-        d['lag'] = aa[0]
-        d['job'] = aa[1]
-        d['car'] = aa[2]
-        d['food'] = aa[3]
-        d['score'] = int(aa[4])
-        list1.append(d)
-            
-    #print(list1)
-    #print()
-    query1 = []
+        for (t0,t1,t2,t3) in pro:
+            if t0 == 0:
+                l = '-'
+            else:
+                l = aa[0]
+            if t1 == 0:
+                j = '-'
+            else:
+                j = aa[1]
+            if t2 == 0:
+                c = '-'
+            else:
+                c = aa[2]
+            if t3 == 0:
+                f = '-'
+            else:
+                f = aa[3]
+            d[l+j+c+f].append( int(aa[4]) )
+        
     for i in range(len(query)):
         bb = re.split(' |and',query[i])
-        #query1.append(bb)
-        person_count = 0
-
         l = bb[0]
         j = bb[3]
         c = bb[6]
         f = bb[9]
         s = int(bb[10])
-
-        for lst in list1:
-            # print(lst['lag'],l)
-            # print(lst['job'],j)
-            # print(lst['car'],c)
-            # print(lst['food'],f)
-            # print(lst['score'],s)
-
-            # if (l == '-' or lst['lag'] == l) and (j == '-' or lst['job'] == j) and (c == '-' or lst['car'] == c) and (f == '-' or lst['food'] == f) and lst['score'] >= s:
-            #     print(lst)
-            #     person_count += 1
-
-            if (l == '-' or lst['lag'] == l):
-                if (j == '-' or lst['job'] == j):
-                    if (c == '-' or lst['car'] == c):
-                        if (f == '-' or lst['food'] == f):
-                            if lst['score'] >= s:
-                                person_count += 1
-
-        #    print('----------------')
-
-        #print(person_count)
-        result.append(person_count)
-
-        
-
+        standard = l+j+c+f
+        score_list = d[standard]
+        if score_list == []:
+            result.append(0)
+        else:
+            score_list.sort()
+            a = bisect_left(score_list, s)
+            result.append(len(score_list)-a)
+            
     return result
-
-
-
-
 
 
 print(solution( ["java backend junior pizza 150","python frontend senior chicken 210","python frontend senior chicken 150","cpp backend senior pizza 260","java backend junior chicken 80","python backend senior chicken 50"], 
