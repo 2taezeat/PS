@@ -26,6 +26,9 @@ def solution(info, query):
             else:
                 f = aa[3]
             d[l+j+c+f].append( int(aa[4]) )
+
+    for keys in d:
+        d[keys].sort() # 2. key값에 따른 tmp_score오름차순으로 정리
         
     for i in range(len(query)):
         bb = re.split(' |and',query[i])
@@ -39,7 +42,6 @@ def solution(info, query):
         if score_list == []:
             result.append(0)
         else:
-            score_list.sort()
             a = bisect_left(score_list, s)
             result.append(len(score_list)-a)
             
