@@ -1,18 +1,10 @@
+from collections import defaultdict
+string_list = ['A','B','C','A']
+int_list = [1, 2, 3, 10]
+l1 = list(zip(string_list, int_list))
 
-columns = 3
-rows = 5
+dic1 = defaultdict(int)
+for (a,b) in l1:
+    dic1[a] = dic1[a] + b
 
-board = [ [0 for i in range(columns)] for i in range(rows)]
-
-
-c = 0
-while(c < columns*rows):
-
-    i = c % columns
-    j = c // columns
-
-    board[j][i] = c + 1
-    c = c + 1
-
-
-print(board)
+print(dic1)
