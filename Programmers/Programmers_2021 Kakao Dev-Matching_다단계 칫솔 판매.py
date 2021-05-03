@@ -1,34 +1,32 @@
+# 정수 변환, 딕셔너리, 재귀, while문의 활용
 from collections import defaultdict
 def solution(enroll, referral, seller, amount):
     l1 = list(zip(seller, amount))
-    seller_dic  = defaultdict(int)
-    for (a,b) in l1:
-        seller_dic[a] = seller_dic[a] + b
     result_dic  = defaultdict(int)
     for e in enroll:
         result_dic[e] = 0
 
-        
-    print(seller_dic)
-    print(result_dic)
+    tree_dic = {}
+    for e,r in zip(enroll,referral):
+        tree_dic[e]=r
+    
+    for (key,value) in l1:
+        money = value * 100
+        rate = money // 10
+        result_dic[key] = result_dic[key] + money - rate
+        x = tree_dic[key]
 
+        while x != '-':
+            if rate == 0: break
+            tkdskq = rate // 10
+            result_dic[x] = result_dic[x] + rate - tkdskq
+            rate = rate // 10
+            x = tree_dic[x]
 
-
-
-
-
-
-
-    answer = []
-    return answer
-
-
+    val_list = list(result_dic.values())
+    return val_list
 
 
 print(solution(["john", "mary", "edward", "sam", "emily", "jaimie", "tod", "young"],
 ["-", "-", "mary", "edward", "mary", "mary", "jaimie", "edward"],
 ["young", "john", "tod", "emily", "mary"],[12, 4, 2, 5, 10]))
-
-# print(solution(["john", "mary", "edward", "sam", "emily", "jaimie", "tod", "young"],
-# ["-", "-", "mary", "edward", "mary", "mary", "jaimie", "edward"],
-# ["sam", "emily", "jaimie", "edward"],[2, 3, 5, 4]))
