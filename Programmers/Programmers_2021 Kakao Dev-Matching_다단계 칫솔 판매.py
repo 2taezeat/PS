@@ -1,4 +1,4 @@
-# 정수 변환, 딕셔너리, 재귀, while문의 활용
+# 정수 변환, 딕셔너리, 재귀, while문의 활용, 정수 처리
 from collections import defaultdict
 def solution(enroll, referral, seller, amount):
     l1 = list(zip(seller, amount))
