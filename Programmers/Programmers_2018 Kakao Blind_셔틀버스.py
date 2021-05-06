@@ -15,7 +15,6 @@ def solution(n, t, m, timetable):
                 answer = min(now_time,time_list[0]-1)
                 break
             
-            
             for _ in range(m - 1):
                 if not time_list:
                     break
@@ -58,3 +57,5 @@ def solution(n, t, m, timetable):
 # print(solution(1,1,5,["23:59"]))
 # print(solution(2,1,5,["00:01"]))
 # print(solution(2,1,1,["00:01"]))
+
+print(solution( 2,10,3,["09:05","09:09","09:13"] ))
