@@ -1,71 +1,55 @@
-# 구현_4_이태경.py
+# 시간초과
 from itertools import permutations, combinations, product
 import copy
-# 모두 외벽점검했는지 체크하는 함수
-def check(list1,w_c):
-    count = 0
-    for l in list1:
-        if l == 1:
-            count = count + 1
-            
-    if count//2 >= w_c:
-        return True
-    else:
-        return False
-
 def solution(n, weak, dist):
-    per = []
-    answer_list = []
-    standard = len(weak)
-    # 원형 배열을 2배늘려 1차원 리스트로 만듬.
-    weaklist = [0] *(n*2)
-    for i in range(len(weak)):
-        weak.append(weak[i]+n)
+    dist.sort(reverse=True)
+    for d in range(1,len(dist)+1):
+        friend = dist[0:d]
+        for p in permutations(weak,d):
+            tmp_weak = copy.deepcopy(weak)
+            zip1 = list(zip(friend,p))
+            for (move,start) in zip1:
+                for i in range(0,move+1):
+                    if start+i > (2*n):
+                        break
 
-    for i in weak:
-        weaklist[i] = 1
+                    try:
+                        tmp_weak.remove( (start+i) % n)
+                    except:
+                        pass
 
-    for i in range(1, len(dist)+1):
-        a = list(permutations(dist,i))
-        for j in a:
-            per.append(j)
+                    if tmp_weak == []:
+                        return d
 
-
-    for p in per:
-
-        for d in p:
-            #c_weaklist = copy.deepcopy(weaklist)
-            for i in weak:
-                c_weaklist = copy.deepcopy(weaklist)
-                I = (d+i) % 24
-                #print(I)
-                count = 0
-                for j in range(i, I+1):
-                    if j > (n*2)-1:
-                        j = j % (24)
-
-                    print(j)
-                    if c_weaklist[j] == 1:
-                        count = count + 1 
-                    #c_weaklist[j] = c_weaklist[j] * 0
-
-            
-                print(count)
-
-                if count == standard:
-                    return True
-            #print('-------------------------------')
-                #val = check(c_weaklist,len(weak)//2)
-                #answer_list.append([val,len(p)])
-        
-
-    #print(answer_list)
-    for i in range(len(answer_list)):
-        if answer_list[i][0] == True:
-            return answer_list[i][1]
-
-    return False
-
+    return -1
 
 
 print(solution (12, [1, 5, 6, 10], [1, 2, 3, 4])  )
+#print(solution (12, [1, 3, 4, 9, 10], [3, 5, 7])  )
+
+###############################
+def solution(n, weak, dist):
+    dist.sort(reverse=True)
+    weak_double = weak + [i+12 for i in weak]
+
+    for d in range(1,len(dist)+1):
+        friend = dist[0:d]
+        for p in permutations(weak,d):
+            check = [False for _ in range(len(weak_double)) ]
+            for i in range(len(p)):
+                start = p[i]
+                end = friend[i] + p[i]
+
+                for w in range(len(weak_double)):
+                    if start <= weak_double[w] <= end:
+                        check[w] = True
+
+                tmp = set()
+                for j in range(len(check)):
+                    if check[j]:
+                        tmp.add(j % n)
+
+                if len(tmp) == len(weak):
+                    return d                      
+
+    return -1

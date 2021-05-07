@@ -1,3 +1,4 @@
+# 시간초과, 테스트케이스 6번 실패
 import math
 def solution(w,h):
     answer = 0
