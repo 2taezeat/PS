@@ -1,64 +1,31 @@
-from collections import deque
+# 현재 설치된 구조물이 '가능한' 구조물인지 확인하는 함수
+def possible(answer):
+    for x, y, stuff in answer:
+        if stuff == 0: # 설치된 것이 '기둥'인 경우
+            # '바닥 위' 혹은 '보의 한쪽 끝부분 위'혹은 '다른 기둥 위'라면 정상
+            if ( y == 0  ) or ( [x - 1, y, 1] in answer ) or ( [x, y, 1] in answer ) or ( [x, y - 1, 0] in answer ):
+                continue
+            return False # 아니라면 False
+        elif stuff == 1: # 설치된 것이 '보'인 경우
+            # '한쪽 끝부분이 기둥 위' 혹은 '양쪽 끝부분이 다른 보와 동시에 연결'이라면 정상
+            if [x, y - 1, 0] in answer or [x + 1, y - 1, 0] in answer or([x - 1, y, 1] in answer and [x + 1, y, 1] in answer):
+                continue
+            return False # 아니라면 False
+    return True
 
 
-def solution(n, t, m, timetable):
-    # 시간 변환 및 정렬
-    timetable = [int(time[: 2]) * 60 + int(time[3: ]) for time in timetable]
-    timetable.sort()
-    timeq = deque(timetable)
 
-    # 이용 가능한 버스 목록
-    busq = deque([[9 * 60 + t * i, m] for i in range(n)])
+def solution(n, build_frame):
+    answer = []
+    for frame in build_frame: # 작업(frame)의 개수는 최대 1,000개
+        x, y, stuff, operate = frame
+        if operate == 0: # 삭제하는 경우
+            answer.remove([x, y, stuff]) # 일단 삭제 연산을 진행
+            if not possible(answer): # 가능한 구조물인지 확인
+                answer.append([x, y, stuff]) # 불가능하면 다시 넣어주기
 
-    # 대기자와 버스를 떠나는 순서대로 쌓음
-    schedule = []
-    while timeq or busq:
-        # 대기자가 남았으면
-        if timeq:
-            cur_person = timeq[0]
-        # 대기자가 없으면 남은 버스 뒤에 붙이고 break
-        else:
-            schedule.extend(busq)
-            break
-
-        # 버스가 남았으면
-        if busq:
-            cur_bus = busq[0]
-        # 버스가 없으면 남은 대기자 뒤에 붙이고 break
-        else:
-            schedule.extend(timeq)
-            break
-
-        # 현재 대기자가 버스보다 빨리 와 있었으면
-        # 버스에 타고 좌석 한 개 줄임
-        if cur_person <= cur_bus[0]:
-            schedule.append(timeq.popleft())
-            cur_bus[1] -= 1
-        # 버스보다 늦게 왔으면
-        # 버스 떠남
-        else:
-            schedule.append(busq.popleft())
-
-        # 버스 좌석이 다 차면
-        # 버스 떠남
-        if cur_bus[1] == 0:
-            schedule.append(busq.popleft())
-
-    for i in range(len(schedule) - 1, -1, -1):
-        # 가장 마지막 버스를 기준으로
-        if type(schedule[i]) is list:
-            # 좌석이 남았으면
-            # 마지막 버스에 탑승
-            if schedule[i][1] > 0:
-                return '{:02}:{:02}'.format(schedule[i][0] // 60, schedule[i][0] % 60)
-            # 좌석이 없으면
-            # 마지막 대기자 보다 1분 빨리 오기
-            else:
-                return '{:02}:{:02}'.format((schedule[i - 1] - 1) // 60, (schedule[i - 1] - 1) % 60)
-
-print(solution(2,1,5,["23:58"]))
-print(solution(1,1,5,["23:59"]))
-print(solution(2,1,5,["00:01"]))
-print(solution(2,1,1,["00:01"]))
-
-print(solution( 2,10,3,["09:05","09:09","09:13"] ))
+        if operate == 1 : # 설치하는 경우
+            answer.append([x, y, stuff]) # 일단 설치해본 다음에
+            if not possible(answer): # 가능한 구조물인지 확인
+                answer.remove([x, y, stuff]) # 가능한 구조물이 아니라면 제거
+    return sorted(answer) # 정렬된 결과를 반환
