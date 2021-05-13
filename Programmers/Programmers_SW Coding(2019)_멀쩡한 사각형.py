@@ -7,6 +7,4 @@ def solution(w,h):
 
     return answer * 2
 
-
-
 print(solution(8,12))
