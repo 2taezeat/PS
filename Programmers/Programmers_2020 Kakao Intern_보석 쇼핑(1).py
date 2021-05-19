@@ -4,7 +4,6 @@ def solution(gems):
     gnqh = []
     dict1 = dict()
     for i in range(len(gems)):
-        print(dict1)
         try:
             del dict1[gems[i]]
         except:
@@ -18,15 +17,12 @@ def solution(gems):
                 return vl[0]+1, vl[-1]+1
             else:
                 gnqh.append([vl[-1]-vl[0], vl[0]+1, vl[-1]+1])
-    print(gnqh)
     gnqh.sort()
     return gnqh[0][1], gnqh[0][2]
 
 
-
-
-print( solution(["DIA", "RUBY", "RUBY", "RUBY", "RUBY", "EMERALD", "SAPPHIRE", "DIA"]) )
-print( solution(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]) )
+#print( solution(["DIA", "RUBY", "RUBY", "RUBY", "RUBY", "EMERALD", "SAPPHIRE", "DIA"]) )
+#print( solution(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]) )
 # print( solution(["AA", "AB", "AC", "AA", "AC"]) )
 # print( solution(["XYZ", "XYZ", "XYZ"]) )
 # print( solution(["ZZZ", "YYY", "NNNN", "YYY", "BBB"]) )
