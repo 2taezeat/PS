@@ -6,10 +6,12 @@ def solution(n, works):
         heapq.heappush(h,[-w,w])
 
     for i in range(n):
-        heapq.heapify(h)
-        if h[0][1] != 0 :
-            h[0][1] -= 1
-            h[0][0] += 1
+        v1,v2 = heapq.heappop(h)
+        if v2 != 0 :
+            v2 -= 1
+            heapq.heappush(h,[-v2,v2])
+        else:
+            heapq.heappush(h,[-v2,v2])
 
     for (a,b) in h:
         answer += b**2
