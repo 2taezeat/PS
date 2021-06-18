@@ -18,3 +18,5 @@ def solution(A, B):
             B.remove(sta)
 
     return answer
+
+solution([1,2,3],[4,5,6])
