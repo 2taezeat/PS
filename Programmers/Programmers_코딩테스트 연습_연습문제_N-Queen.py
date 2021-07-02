@@ -1,21 +1,24 @@
-import itertools
 def solution(n):
 
-    board = []
+    def dfs(l,c,d):
+        answer = 0
+        if c == n:
+            return 1
 
-    for i in range(1,n+1):
-        for j in range(1,n+1):
-            board.append((i,j))
+        for i in range(n):
+            l[c] = i
+            for j in range(c):
+                if l[j] == l[c]:
+                    break
 
-    #print(board)
+                if abs(l[j] - l[c]) == c - j:
+                    break
+            else:
+                answer += dfs(l, c+1,d+1)
 
-    c = list(itertools.combinations(board,n))
-    #print(c)
-    print(len(c))
+        return answer
 
+    a = dfs( [0]*n, 0,0 )
+    return a
 
-    answer = 0
-    return answer
-
-
-print(solution(12))
+print(solution(4))
